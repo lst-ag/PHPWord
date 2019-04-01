@@ -67,6 +67,13 @@ class TextBox extends Image
     private $borderColor;
 
     /**
+     * Fill color
+     *
+     * @var string
+     */
+    private $fillColor = null;
+
+    /**
      * Set margin top.
      *
      * @param int $value
@@ -226,5 +233,25 @@ class TextBox extends Image
     public function getBorderColor()
     {
         return $this->borderColor;
+    }
+
+    /**
+     * Set fill color.
+     *
+     * @param string $value
+     */
+    public function setFillColor($value = null)
+    {
+        $this->fillColor = $value;
+    }
+
+    /**
+     * Get fill color
+     *
+     * @return string
+     */
+    public function getFillColor()
+    {
+        return $this->fillColor;
     }
 }
