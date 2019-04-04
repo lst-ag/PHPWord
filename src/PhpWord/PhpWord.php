@@ -307,6 +307,26 @@ class PhpWord
     }
 
     /**
+     * Get default font color
+     *
+     * @return string
+     */
+    public function getDefaultFontColor()
+    {
+        return Settings::getDefaultFontColor();
+    }
+
+    /**
+     * Set default font color.
+     *
+     * @param string $fontColor
+     */
+    public function setDefaultFontColor($fontColor)
+    {
+        Settings::setDefaultFontColor($fontColor);
+    }
+
+    /**
      * Set default paragraph style definition to styles.xml
      *
      * @param array $styles Paragraph style definition
