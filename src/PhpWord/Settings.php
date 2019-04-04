@@ -127,6 +127,12 @@ class Settings
     private static $defaultPaper = self::DEFAULT_PAPER;
 
     /**
+     * Default font size
+     * @var string
+     */
+    private static $defaultFontColor = self::DEFAULT_FONT_COLOR;
+
+    /**
      * The user defined temporary directory.
      *
      * @var string
@@ -389,6 +395,34 @@ class Settings
         $value = (int) $value;
         if ($value > 0) {
             self::$defaultFontSize = $value;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get default font color
+     *
+     * @return int
+     */
+    public static function getDefaultFontColor()
+    {
+        return self::$defaultFontColor;
+    }
+
+    /**
+     * Set default font color
+     *
+     * @param string $value
+     * @return bool
+     */
+    public static function setDefaultFontColor($value)
+    {
+        $value = (string) $value;
+        if ($value !== '') {
+            self::$defaultFontColor = $value;
 
             return true;
         }

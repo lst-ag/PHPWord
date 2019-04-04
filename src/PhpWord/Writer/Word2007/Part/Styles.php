@@ -78,12 +78,14 @@ class Styles extends AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\AbstractStyle[] $styles
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     private function writeDefaultStyles(XMLWriter $xmlWriter, $styles)
     {
         $phpWord = $this->getParentWriter()->getPhpWord();
         $fontName = $phpWord->getDefaultFontName();
         $fontSize = $phpWord->getDefaultFontSize();
+        $fontColor = $phpWord->getDefaultFontColor();
         $language = $phpWord->getSettings()->getThemeFontLang();
         $latinLanguage = ($language == null || $language->getLatin() === null) ? 'en-US' : $language->getLatin();
 
@@ -122,6 +124,15 @@ class Styles extends AbstractPart
         $xmlWriter->startElement('w:name');
         $xmlWriter->writeAttribute('w:val', 'Normal');
         $xmlWriter->endElement(); // w:name
+
+        // LST: make it possible to define default font color
+        $xmlWriter->writeElement('w:qFormat');
+        $xmlWriter->startElement('w:rPr');
+        $xmlWriter->startElement('w:color');
+        $xmlWriter->writeAttribute('w:val', $fontColor);
+        $xmlWriter->endElement(); // w:color
+        $xmlWriter->endElement(); //w:rPr
+
         if (isset($styles['Normal'])) {
             $normalStyle = $styles['Normal'];
             // w:pPr
