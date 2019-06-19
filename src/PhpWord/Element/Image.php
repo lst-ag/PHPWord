@@ -80,6 +80,16 @@ class Image extends AbstractElement
     private $imageType;
 
     /**
+     * @var string
+     */
+    private $imageLink;
+
+    /**
+     * @var int
+     */
+    private $imageLinkRelationId;
+
+    /**
      * Image create function
      *
      * @var string
@@ -139,12 +149,13 @@ class Image extends AbstractElement
      * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
      * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
-    public function __construct($source, $style = null, $watermark = false, $name = null)
+    public function __construct($source, $style = null, $watermark = false, $name = null, $link = null)
     {
         $this->source = $source;
         $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
         $this->setIsWatermark($watermark);
         $this->setName($name);
+        $this->setImageLink($link);
 
         $this->checkImage();
     }
@@ -197,6 +208,38 @@ class Image extends AbstractElement
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageLink(): ?string
+    {
+        return $this->imageLink;
+    }
+
+    /**
+     * @param string $imageLink
+     */
+    public function setImageLink(?string $imageLink): void
+    {
+        $this->imageLink = $imageLink;
+    }
+
+    /**
+     * @return int
+     */
+    public function getImageLinkRelationId(): ?int
+    {
+        return $this->imageLinkRelationId;
+    }
+
+    /**
+     * @param int $imageLinkRelationId
+     */
+    public function setImageLinkRelationId(?int $imageLinkRelationId): void
+    {
+        $this->imageLinkRelationId = $imageLinkRelationId;
     }
 
     /**

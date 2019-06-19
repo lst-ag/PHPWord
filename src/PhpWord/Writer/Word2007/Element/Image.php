@@ -62,8 +62,15 @@ class Image extends AbstractElement
             $xmlWriter->startElement('w:p');
             $styleWriter->writeAlignment();
         }
-        $this->writeCommentRangeStart();
 
+        if ($element->getImageLinkRelationId() !== null) {
+            $xmlWriter->startElement('w:hyperlink');
+            $xmlWriter->writeAttribute('r:id', 'rId' . $element->getImageLinkRelationId());
+            $xmlWriter->writeAttribute('w:history', '1');
+        }
+
+        $this->writeCommentRangeStart();
+        
         $xmlWriter->startElement('w:r');
 
         // Write position
@@ -89,6 +96,10 @@ class Image extends AbstractElement
         $xmlWriter->endElement(); // v:shape
         $xmlWriter->endElement(); // w:pict
         $xmlWriter->endElement(); // w:r
+
+        if ($element->getImageLinkRelationId() !== null) {
+            $xmlWriter->endElement(); // w:hyperlink
+        }
 
         $this->endElementP();
     }
