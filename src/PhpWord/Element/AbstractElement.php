@@ -405,6 +405,11 @@ abstract class AbstractElement
             $rId = Media::addElement($mediaPart, 'image', $icon, new Image($icon));
             $this->setImageRelationId($rId);
         }
+
+        if ($this instanceof Image && $this->getImageLink() !== null) {
+            $rId = Media::addElement($mediaPart, 'link', $this->getImageLink(), null);
+            $this->setImageLinkRelationId($rId + 6);
+        }
     }
 
     /**
