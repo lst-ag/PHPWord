@@ -71,6 +71,15 @@ final class Language extends AbstractStyle
     const UK_UA = 'uk-UA';
     const UK_UA_ID = 1058;
 
+    const FR_CH = 'fr-CH';
+    const FR_CH_ID = 4108;
+
+    const IT_CH = 'it-CH';
+    const IT_CH_ID = 2064;
+
+    const DE_CH = 'de-CH';
+    const DE_CH_ID = 2055;
+
     /**
      * Language ID, used for RTF document generation
      *
