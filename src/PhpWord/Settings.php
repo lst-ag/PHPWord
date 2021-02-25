@@ -69,6 +69,7 @@ class Settings
     const DEFAULT_FONT_NAME = 'Arial';
     const DEFAULT_FONT_SIZE = 10;
     const DEFAULT_FONT_COLOR = '000000';
+    const DEFAULT_BACKGROUND_COLOR = '000000';
     const DEFAULT_FONT_CONTENT_TYPE = 'default'; // default|eastAsia|cs
 
     /**
@@ -124,6 +125,12 @@ class Settings
      * @var string
      */
     private static $defaultFontColor = self::DEFAULT_FONT_COLOR;
+
+    /**
+     * Default Background Color
+     * @var string
+     */
+    private static $backgroundColor = self::DEFAULT_BACKGROUND_COLOR;
 
     /**
      * The user defined temporary directory.
@@ -420,6 +427,28 @@ class Settings
             return true;
         }
 
+        return false;
+    }
+
+
+    public static function getBackgroundColor()
+    {
+        return self::$backgroundColor;
+    }
+
+    /**
+     * Set background color
+     *
+     * @param string $value
+     * @return bool
+     */
+    public static function setBackgroundColor(string $value)
+    {
+        $value = (string) $value;
+        if ($value !== '') {
+            self::$backgroundColor = $value;
+            return true;
+        }
         return false;
     }
 

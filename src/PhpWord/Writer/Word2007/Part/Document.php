@@ -54,6 +54,10 @@ class Document extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
 
+        $xmlWriter->startElement('w:background');
+        $xmlWriter->writeAttribute('w:color',$phpWord->getBackgroundColor());
+        $xmlWriter->endElement();
+
         $xmlWriter->startElement('w:body');
 
         if ($sectionCount > 0) {
