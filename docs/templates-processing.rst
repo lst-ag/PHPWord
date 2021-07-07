@@ -63,6 +63,11 @@ Example:
 
     $templateProcessor->setImageValue('CompanyLogo', 'path/to/company/logo.png');
     $templateProcessor->setImageValue('UserLogo', array('path' => 'path/to/logo.png', 'width' => 100, 'height' => 100, 'ratio' => false));
+    $templateProcessor->setImageValue('FeatureImage', function () {
+        // Closure will only be executed if the replacement tag is found in the template
+
+        return array('path' => SlowFeatureImageGenerator::make(), 'width' => 100, 'height' => 100, 'ratio' => false);
+    });
 
 cloneBlock
 """"""""""
@@ -127,7 +132,7 @@ Given a template containing
     This block content will be replaced
     ${/block_name}
 
-The following will replace everything between``${block_name}`` and ``${/block_name}`` with the value passed.
+The following will replace everything between ``${block_name}`` and ``${/block_name}`` with the value passed.
 
 .. code-block:: php
 
@@ -190,7 +195,7 @@ Finds a row in a table row identified by `$search` param and clones it as many t
         ['userId' => 1, 'userName' => 'Batman', 'userAddress' => 'Gotham City'],
         ['userId' => 2, 'userName' => 'Superman', 'userAddress' => 'Metropolis'],
     ];
-    $templateProcessor->cloneRowAndSetValues('userId', );
+    $templateProcessor->cloneRowAndSetValues('userId', $values);
 
 Will result in
 
@@ -215,3 +220,60 @@ Applies the XSL stylesheet passed to header part, footer part and main part
     $xslDomDocument = new \DOMDocument();
     $xslDomDocument->load('/path/to/my/stylesheet.xsl');
     $templateProcessor->applyXslStyleSheet($xslDomDocument);
+
+setComplexValue
+"""""""""""""""
+Raplaces a ${macro} with the ComplexType passed.
+See ``Sample_40_TemplateSetComplexValue.php`` for examples.
+
+.. code-block:: php
+
+    $inline = new TextRun();
+    $inline->addText('by a red italic text', array('italic' => true, 'color' => 'red'));
+    $templateProcessor->setComplexValue('inline', $inline);
+
+setComplexBlock
+"""""""""""""""
+Raplaces a ${macro} with the ComplexType passed.
+See ``Sample_40_TemplateSetComplexValue.php`` for examples.
+
+.. code-block:: php
+
+    $table = new Table(array('borderSize' => 12, 'borderColor' => 'green', 'width' => 6000, 'unit' => TblWidth::TWIP));
+    $table->addRow();
+    $table->addCell(150)->addText('Cell A1');
+    $table->addCell(150)->addText('Cell A2');
+    $table->addCell(150)->addText('Cell A3');
+    $table->addRow();
+    $table->addCell(150)->addText('Cell B1');
+    $table->addCell(150)->addText('Cell B2');
+    $table->addCell(150)->addText('Cell B3');
+    $templateProcessor->setComplexBlock('table', $table);
+
+setChartValue
+"""""""""""""
+Replace a variable by a chart.
+
+.. code-block:: php
+
+    $categories = array('A', 'B', 'C', 'D', 'E');
+    $series1 = array(1, 3, 2, 5, 4);
+    $chart = new Chart('doughnut', $categories, $series1);
+    $templateProcessor->setChartValue('myChart', $chart);
+
+save
+""""
+Saves the loaded template within the current directory. Returns the file path.
+
+.. code-block:: php
+
+    $filepath = $templateProcessor->save();
+    
+saveAs
+""""""
+Saves a copy of the loaded template in the indicated path.
+
+.. code-block:: php
+    
+    $pathToSave = 'path/to/save/file.ext';
+    $templateProcessor->saveAs($pathToSave);

@@ -34,7 +34,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnmatchedElements()
     {
-        $elements = array('Container', 'Footnote', 'Image', 'Link', 'ListItem', 'Table', 'Title', 'Bookmark');
+        $elements = array('Container', 'Footnote', 'Image', 'Link', 'ListItem', 'ListItemRun', 'Table', 'Title', 'Bookmark');
         foreach ($elements as $element) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\HTML\\Element\\' . $element;
             $parentWriter = new HTML();
@@ -86,10 +86,10 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $table = $section->addTable();
         $row1 = $table->addRow();
-        $cell11 = $row1->addCell(1000, array('gridSpan' => 2));
+        $cell11 = $row1->addCell(1000, array('gridSpan' => 2, 'bgColor' => '6086B8'));
         $cell11->addText('cell spanning 2 bellow');
         $row2 = $table->addRow();
-        $cell21 = $row2->addCell(500);
+        $cell21 = $row2->addCell(500, array('bgColor' => 'ffffff'));
         $cell21->addText('first cell');
         $cell22 = $row2->addCell(500);
         $cell22->addText('second cell');
@@ -100,6 +100,11 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, $xpath->query('/html/body/table/tr[1]/td')->length);
         $this->assertEquals('2', $xpath->query('/html/body/table/tr/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
         $this->assertEquals(2, $xpath->query('/html/body/table/tr[2]/td')->length);
+
+        $this->assertEquals('#6086B8', $xpath->query('/html/body/table/tr[1]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
+        $this->assertEquals('#ffffff', $xpath->query('/html/body/table/tr[1]/td')->item(0)->attributes->getNamedItem('color')->textContent);
+        $this->assertEquals('#ffffff', $xpath->query('/html/body/table/tr[2]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
+        $this->assertNull($xpath->query('/html/body/table/tr[2]/td')->item(0)->attributes->getNamedItem('color'));
     }
 
     /**
@@ -156,6 +161,31 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $content = $htmlWriter->getContent();
 
         $this->assertContains($expected, $content);
+    }
+
+    /**
+     * Test write element ListItemRun
+     */
+    public function testListItemRun()
+    {
+        $expected1 = 'List item run 1';
+        $expected2 = 'List item run 1 in bold';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $listItemRun = $section->addListItemRun(0, null, 'MyParagraphStyle');
+        $listItemRun->addText($expected1);
+        $listItemRun->addText($expected2, array('bold' => true));
+
+        $htmlWriter = new HTML($phpWord);
+        $content = $htmlWriter->getContent();
+
+        $dom = new \DOMDocument();
+        $dom->loadHTML($content);
+
+        $this->assertEquals($expected1, $dom->getElementsByTagName('p')->item(0)->textContent);
+        $this->assertEquals($expected2, $dom->getElementsByTagName('p')->item(1)->textContent);
     }
 
     /**
