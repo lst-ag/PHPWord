@@ -56,6 +56,7 @@ class Settings extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
         $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
         $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
+        $xmlWriter->writeAttribute('xmlns:w14', 'http://schemas.microsoft.com/office/word/2010/wordml');
 
         foreach ($this->settings as $settingKey => $settingValue) {
             $this->writeSetting($xmlWriter, $settingKey, $settingValue);
@@ -159,6 +160,7 @@ class Settings extends AbstractPart
         $this->setZoom($documentSettings->getZoom());
         $this->setConsecutiveHyphenLimit($documentSettings->getConsecutiveHyphenLimit());
         $this->setHyphenationZone($documentSettings->getHyphenationZone());
+        $this->setDefaultImageDpi($documentSettings->getDefaultImageDpi());
         $this->setCompatibility();
     }
 
@@ -306,6 +308,22 @@ class Settings extends AbstractPart
 
         $this->settings['w:hyphenationZone'] = array(
             '@attributes' => array('w:val' => $hyphenationZone),
+        );
+    }
+
+    /**
+     * Sets the default image DPI
+     *
+     * @param int|null $defaultImageDpi
+     */
+    private function setDefaultImageDpi($defaultImageDpi)
+    {
+        if ($defaultImageDpi === null) {
+            return;
+        }
+
+        $this->settings['w14:defaultImageDpi'] = array(
+            '@attributes' => array('w14:val' => $defaultImageDpi),
         );
     }
 

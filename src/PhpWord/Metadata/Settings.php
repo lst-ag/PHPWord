@@ -157,6 +157,12 @@ class Settings
     private $doNotHyphenateCaps;
 
     /**
+     * The default dpi for images
+     * @var int|null
+     */
+    private $defaultImageDpi;
+
+    /**
      * @return Protection
      */
     public function getDocumentProtection()
@@ -476,5 +482,21 @@ class Settings
     public function setDoNotHyphenateCaps($doNotHyphenateCaps)
     {
         $this->doNotHyphenateCaps = (bool) $doNotHyphenateCaps;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getDefaultImageDpi()
+    {
+        return $this->defaultImageDpi;
+    }
+
+    /**
+     * @param int $defaultImageDpi
+     */
+    public function setDefaultImageDpi($defaultImageDpi)
+    {
+        $this->defaultImageDpi = $defaultImageDpi;
     }
 }
